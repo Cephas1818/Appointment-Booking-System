@@ -24,10 +24,10 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
   const bussinessModal = useSetupBusiness();
   const loginModal = useLoginModal();
   const navBarItems = [
-    { id: 0, name: 'Dashboard', link: '/dashboard' },
-    { id: 1, name: 'Bookings', link: '/bookings' },
-    { id: 2, name: 'Agents', link: '/agents' },
-    { id: 3, name: 'Learn', link: '/courses' },
+    { id: 0, name: 'Dashboard', link: '/dashboard', auth: true },
+    { id: 1, name: 'Bookings', link: '/bookings', auth: true },
+    { id: 2, name: 'Agents', link: '/agents', auth: false },
+    { id: 3, name: 'Learn', link: '/courses', auth: false },
   ];
 
   const onBusiness = useCallback(() => {
@@ -52,15 +52,17 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
         </div>
         <div className="flex gap-4 items-center">
           <Search />
-          {navBarItems.map((item) => (
-            <Link
-              key={item.id}
-              href={item.link}
-              className="hidden md:block text-sm font-semibold text-gray-300 hover:text-white"
-            >
-              {item.name}
-            </Link>
-          ))}
+          {navBarItems
+            .filter((item) => !item.auth || currentUser)
+            .map((item) => (
+              <Link
+                key={item.id}
+                href={item.link}
+                className="hidden md:block text-sm font-semibold text-gray-300 hover:text-white"
+              >
+                {item.name}
+              </Link>
+            ))}
         </div>
 
         <UserMenu currentUser={currentUser} />
