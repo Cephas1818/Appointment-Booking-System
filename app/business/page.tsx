@@ -1,5 +1,5 @@
-import EmptyState from '@/app/components/EmptyState';
 import ClientOnly from '../ClientOnly';
+import { redirect } from 'next/navigation';
 
 import getCurrentUser from '@/app/actions/getCurrentUser';
 import BusinessClient from './BusinessClient';
@@ -9,21 +9,13 @@ const Business = async () => {
   const currentUser = await getCurrentUser();
 
   if (!currentUser) {
-    return (
-      <ClientOnly>
-        <EmptyState title="Unauthorized" subtitle="Please login" />
-      </ClientOnly>
-    );
+    redirect('/');
   }
 
   const listings = await getListings({ userId: currentUser.id });
 
   if (listings.length === 0) {
-    return (
-      <ClientOnly>
-        <EmptyState title="No Business" subtitle="Have no services" />
-      </ClientOnly>
-    );
+    redirect('/');
   }
 
   return (
