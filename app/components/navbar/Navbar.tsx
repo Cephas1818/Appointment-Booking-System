@@ -2,6 +2,7 @@
 
 import { SafeUser } from '@/app/types';
 import Image from 'next/image';
+import Link from 'next/link';
 
 import useRegisterModal from '@/app/hooks/useRegisterModal';
 import useLoginModal from '@/app/hooks/useLoginModal';
@@ -23,9 +24,10 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
   const bussinessModal = useSetupBusiness();
   const loginModal = useLoginModal();
   const navBarItems = [
-    { id: 0, name: 'Home', link: '/' },
-    { id: 1, name: 'About', link: '/about' },
-    { id: 2, name: 'Contact', link: '/contact' },
+    { id: 0, name: 'Dashboard', link: '/dashboard' },
+    { id: 1, name: 'Bookings', link: '/bookings' },
+    { id: 2, name: 'Agents', link: '/agents' },
+    { id: 3, name: 'Learn', link: '/courses' },
   ];
 
   const onBusiness = useCallback(() => {
@@ -48,8 +50,17 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
             alt="Logo"
           />
         </div>
-        <div>
+        <div className="flex gap-4 items-center">
           <Search />
+          {navBarItems.map((item) => (
+            <Link
+              key={item.id}
+              href={item.link}
+              className="hidden md:block text-sm font-semibold text-gray-300 hover:text-white"
+            >
+              {item.name}
+            </Link>
+          ))}
         </div>
 
         <UserMenu currentUser={currentUser} />
