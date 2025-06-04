@@ -79,7 +79,7 @@ model Reservation {
   listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
 }
 model Business {
-  id          String   @id @default(cuid())
+  id          String   @id @default(cuid()) @map("_id")
   ownerId     String   @unique
   slug        String   @unique
   name        String
@@ -91,7 +91,7 @@ model Business {
 }
 
 model Service {
-  id          String   @id @default(cuid())
+  id          String   @id @default(cuid()) @map("_id")
   businessId  String
   name        String
   price       Int
@@ -99,7 +99,7 @@ model Service {
 }
 
 model Agent {
-  id          String   @id @default(cuid())
+  id          String   @id @default(cuid()) @map("_id")
   businessId  String
   name        String
   role        AgentRole
@@ -110,7 +110,7 @@ model Agent {
 }
 
 model Course {
-  id          String   @id @default(cuid())
+  id          String   @id @default(cuid()) @map("_id")
   title       String
   minutes     Int
   videoUrl    String
