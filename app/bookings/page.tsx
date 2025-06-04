@@ -1,4 +1,11 @@
-const BookingsPage = () => {
+import getCurrentUser from '../actions/getCurrentUser';
+import { redirect } from 'next/navigation';
+
+const BookingsPage = async () => {
+  const currentUser = await getCurrentUser();
+  if (!currentUser) {
+    redirect('/login');
+  }
   const bookings = [
     { id: 1, client: 'Alice', service: 'Cut', date: '2025-01-01', status: 'CONFIRMED' },
     { id: 2, client: 'Bob', service: 'Color', date: '2025-01-02', status: 'PENDING' },

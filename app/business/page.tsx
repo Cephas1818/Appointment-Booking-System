@@ -4,16 +4,13 @@ import ClientOnly from '../ClientOnly';
 import getCurrentUser from '@/app/actions/getCurrentUser';
 import BusinessClient from './BusinessClient';
 import getListings from '../actions/getListings';
+import { redirect } from 'next/navigation';
 
 const Business = async () => {
   const currentUser = await getCurrentUser();
 
   if (!currentUser) {
-    return (
-      <ClientOnly>
-        <EmptyState title="Unauthorized" subtitle="Please login" />
-      </ClientOnly>
-    );
+    redirect('/login');
   }
 
   const listings = await getListings({ userId: currentUser.id });

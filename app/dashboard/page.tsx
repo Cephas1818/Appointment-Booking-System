@@ -2,7 +2,14 @@ import BookingSummaryCard from '../components/tachmonite/BookingSummaryCard';
 import AgentStatusCard from '../components/tachmonite/AgentStatusCard';
 import AnalyticsWidget from '../components/tachmonite/AnalyticsWidget';
 
-const Dashboard = () => {
+import getCurrentUser from '../actions/getCurrentUser';
+import { redirect } from 'next/navigation';
+
+const Dashboard = async () => {
+  const currentUser = await getCurrentUser();
+  if (!currentUser) {
+    redirect('/login');
+  }
   return (
     <div className="space-y-4 p-4">
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
