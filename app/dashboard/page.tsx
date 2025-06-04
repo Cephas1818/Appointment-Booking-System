@@ -28,6 +28,39 @@ const Dashboard = async () => {
 
   const revenue = revenueAgg._sum.totalPrice ?? 0;
 
+codex/implement-google-login-with-nextauth.js
+import getCurrentUser from '../actions/getCurrentUser';
+import { redirect } from 'next/navigation';
+
+const Dashboard = async () => {
+  const currentUser = await getCurrentUser();
+  if (!currentUser) {
+    redirect('/login');
+  }
+import BookingsClient from '../BookingsClient';
+import ClientOnly from '../ClientOnly';
+import getCurrentUser from '../actions/getCurrentUser';
+import getReservations from '../actions/getReservations';
+import { redirect } from 'next/navigation';
+
+const BookingsPage = async () => {
+  const currentUser = await getCurrentUser();
+  if (!currentUser) {
+    redirect('/login');
+  }
+
+  const bookings = await getReservations({ authorId: currentUser.id });
+
+  return (
+    <ClientOnly>
+      <BookingsClient bookings={bookings} />
+    </ClientOnly>
+  );
+};
+
+export default BookingsPage;
+
+ master
   return (
     <ClientOnly>
       <div className="space-y-4 p-4">
