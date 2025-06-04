@@ -78,3 +78,54 @@ model Reservation {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
 }
+model Business {
+  id          String   @id @default(cuid())
+  ownerId     String   @unique
+  slug        String   @unique
+  name        String
+  tagline     String?
+  avatarUrl   String?
+  services    Service[]
+  agents      Agent[]
+  reservations Reservation[]
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  businessId  String
+  name        String
+  price       Int
+  business    Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+}
+
+model Agent {
+  id          String   @id @default(cuid())
+  businessId  String
+  name        String
+  role        AgentRole
+  status      AgentStatus
+  nextRun     DateTime?
+  schedule    String
+  business    Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+}
+
+model Course {
+  id          String   @id @default(cuid())
+  title       String
+  minutes     Int
+  videoUrl    String
+  summary     String
+}
+
+enum AgentRole {
+  FINANCE
+  MARKETING
+  SUPPORT
+}
+
+enum AgentStatus {
+  IDLE
+  RUNNING
+  ERROR
+}
+
